@@ -3,17 +3,26 @@
 @inject Blazor8Scaffold.Data.Blazor8DbContext DB
 @using Blazor8Scaffold
 
-<PageTitle>Index</PageTitle>
+@rendermode InteractiveServer
 
-<h1>Index</h1>
+<PageTitle>Mammals</PageTitle>
+
+<h1>List of UK Mammals</h1>
 
 <p>
-    <a href="mammals/create">Create New</a>
+    <a class="btn btn-success" href="mammals/create">Create New</a>
 </p>
 
-<QuickGrid Class="table" Items="DB.Mammals">
-    <PropertyColumn Property="mammals => mammals.Name" />
-    <PropertyColumn Property="mammals => mammals.Habitat" />
+<QuickGrid Class="table" Items="mammals" Pagination="@pagination">
+    <PropertyColumn Property="mammals => mammals.Name" Sortable="true">
+        <ColumnOptions>
+            <div class="search-box">
+                <input type="search" autofocus @bind="filterText" 
+                    @bind:event="oninput" placeholder="Filter by Name" />
+            </div>
+        </ColumnOptions>
+    </PropertyColumn>
+    <PropertyColumn Property="mammals => mammals.Habitat" Sortable="true"/>
     <PropertyColumn Property="mammals => mammals.Diet" />
 
     <TemplateColumn Context="mammals">
@@ -23,9 +32,11 @@
     </TemplateColumn>
 </QuickGrid>
 
-<Paginator State="paginationState" />
+<Paginator State="@pagination" />
 
 @code
 {
-    PaginationState paginationState = new PaginationState {ItemsPerPage = 4};
+    private string filterText = "";
+    PaginationState pagination = new PaginationState {ItemsPerPage = 10};
+    IQueryable<Mammals> mammals => DB.Mammals.Where(x => x.Name.Contains(filterText));
 }
