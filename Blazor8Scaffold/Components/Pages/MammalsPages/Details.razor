@@ -1,0 +1,49 @@
+﻿@page "/mammals/details"
+@inject Blazor8Scaffold.Data.Blazor8DbContext DB
+@using Blazor8Scaffold
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h4>Mammals</h4>
+    <hr />
+    @if (mammals is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Name</dt>
+            <dd class="col-sm-10">@mammals.Name</dd>
+            <dt class="col-sm-2">Habitat</dt>
+            <dd class="col-sm-10">@mammals.Habitat</dd>
+            <dt class="col-sm-2">Diet</dt>
+            <dd class="col-sm-10">@mammals.Diet</dd>
+        </dl>
+        <div>
+            <a href="@($"/mammals/edit?id={mammals.Id}")">Edit</a> |
+            <a href="@($"/mammals")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    Mammals? mammals;
+
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        mammals = await DB.Mammals.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (mammals is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

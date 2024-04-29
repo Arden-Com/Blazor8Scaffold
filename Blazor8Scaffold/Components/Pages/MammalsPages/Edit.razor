@@ -1,0 +1,96 @@
+﻿@page "/Mammals/edit"
+@inject Blazor8Scaffold.Data.Blazor8DbContext DB
+@using Blazor8Scaffold
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h4>Mammals</h4>
+<hr />
+@if (Mammals is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Mammals" OnValidSubmit="UpdateMammals" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <input type="hidden" name="Mammals.Id" value="@Mammals.Id" />
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <InputText id="name" @bind-Value="Mammals.Name" class="form-control" />
+                    <ValidationMessage For="() => Mammals.Name" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="habitat" class="form-label">Habitat:</label>
+                    <InputText id="habitat" @bind-Value="Mammals.Habitat" class="form-control" />
+                    <ValidationMessage For="() => Mammals.Habitat" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="diet" class="form-label">Diet:</label>
+                    <InputText id="diet" @bind-Value="Mammals.Diet" class="form-control" />
+                    <ValidationMessage For="() => Mammals.Diet" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/mammals">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    public Mammals? Mammals { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Mammals ??= await DB.Mammals.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (Mammals is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see https://aka.ms/RazorPagesCRUD.
+    public async Task UpdateMammals()
+    {
+        DB.Attach(Mammals!).State = EntityState.Modified;
+
+        try
+        {
+            await DB.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!MammalsExists(Mammals!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/mammals");
+    }
+
+    bool MammalsExists(int id)
+    {
+        return DB.Mammals.Any(e => e.Id == id);
+    }
+}

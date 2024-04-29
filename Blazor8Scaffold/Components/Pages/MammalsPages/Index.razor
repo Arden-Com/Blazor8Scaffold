@@ -1,0 +1,31 @@
+﻿@page "/mammals"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject Blazor8Scaffold.Data.Blazor8DbContext DB
+@using Blazor8Scaffold
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="mammals/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.Mammals">
+    <PropertyColumn Property="mammals => mammals.Name" />
+    <PropertyColumn Property="mammals => mammals.Habitat" />
+    <PropertyColumn Property="mammals => mammals.Diet" />
+
+    <TemplateColumn Context="mammals">
+        <a href="@($"mammals/edit?id={mammals.Id}")">Edit</a> |
+        <a href="@($"mammals/details?id={mammals.Id}")">Details</a> |
+        <a href="@($"mammals/delete?id={mammals.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+<Paginator State="paginationState" />
+
+@code
+{
+    PaginationState paginationState = new PaginationState {ItemsPerPage = 4};
+}

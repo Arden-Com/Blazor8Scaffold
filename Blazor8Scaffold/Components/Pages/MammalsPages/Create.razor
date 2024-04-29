@@ -1,0 +1,53 @@
+﻿@page "/mammals/create"
+@inject Blazor8Scaffold.Data.Blazor8DbContext DB
+@using Blazor8Scaffold
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h4>Mammals</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Mammals" OnValidSubmit="AddMammals" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label> 
+                <InputText id="name" @bind-Value="Mammals.Name" class="form-control" /> 
+                <ValidationMessage For="() => Mammals.Name" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="habitat" class="form-label">Habitat:</label> 
+                <InputText id="habitat" @bind-Value="Mammals.Habitat" class="form-control" /> 
+                <ValidationMessage For="() => Mammals.Habitat" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="diet" class="form-label">Diet:</label> 
+                <InputText id="diet" @bind-Value="Mammals.Diet" class="form-control" /> 
+                <ValidationMessage For="() => Mammals.Diet" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/mammals">Back to List</a>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public Mammals Mammals { get; set; } = new();
+
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddMammals()
+    {
+        DB.Mammals.Add(Mammals);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/mammals");
+    }
+}
