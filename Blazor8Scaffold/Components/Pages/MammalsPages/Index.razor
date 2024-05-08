@@ -1,7 +1,7 @@
 ﻿@page "/mammals"
 @using Microsoft.AspNetCore.Components.QuickGrid
 @inject Blazor8Scaffold.Data.Blazor8DbContext DB
-@using Blazor8Scaffold
+@using Blazor8Scaffold.Entities
 
 @rendermode InteractiveServer
 
@@ -38,5 +38,5 @@
 {
     private string filterText = "";
     PaginationState pagination = new PaginationState {ItemsPerPage = 10};
-    IQueryable<Mammals> mammals => DB.Mammals.Where(x => x.Name.Contains(filterText));
+    IQueryable<Mammal> mammals => DB.Mammals.Where(x => x.Name.Contains(filterText));
 }

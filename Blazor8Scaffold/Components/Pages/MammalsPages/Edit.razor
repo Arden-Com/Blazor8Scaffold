@@ -1,6 +1,6 @@
 ﻿@page "/Mammals/edit"
 @inject Blazor8Scaffold.Data.Blazor8DbContext DB
-@using Blazor8Scaffold
+@using Blazor8Scaffold.Entities
 @inject NavigationManager NavigationManager
 @using Microsoft.EntityFrameworkCore
 
@@ -52,7 +52,7 @@ else
     public int Id { get; set; }
 
     [SupplyParameterFromForm]
-    public Mammals? Mammals { get; set; }
+    public Mammal? Mammals { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

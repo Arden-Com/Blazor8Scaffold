@@ -1,6 +1,6 @@
 ﻿@page "/mammals/create"
 @inject Blazor8Scaffold.Data.Blazor8DbContext DB
-@using Blazor8Scaffold
+@using Blazor8Scaffold.Entities
 @inject NavigationManager NavigationManager
 
 <PageTitle>Create</PageTitle>
@@ -41,7 +41,7 @@
 @code {
 
     [SupplyParameterFromForm]
-    public Mammals Mammals { get; set; } = new();
+    public Mammal Mammals { get; set; } = new();
 
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task AddMammals()

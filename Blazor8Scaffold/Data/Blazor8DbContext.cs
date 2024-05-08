@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Blazor8Scaffold;
+﻿using Microsoft.EntityFrameworkCore;
+using Blazor8Scaffold.Entities;
 
 namespace Blazor8Scaffold.Data
 {
@@ -14,6 +10,6 @@ namespace Blazor8Scaffold.Data
         {
         }
 
-        public DbSet<Blazor8Scaffold.Mammals> Mammals { get; set; } = default!;
+        public DbSet<Mammal> Mammals { get; set; } = default!;
     }
 }

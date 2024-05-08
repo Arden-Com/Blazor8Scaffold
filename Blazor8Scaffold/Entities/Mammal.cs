@@ -1,6 +1,6 @@
-﻿namespace Blazor8Scaffold
+﻿namespace Blazor8Scaffold.Entities
 {
-    public class Mammals
+    public class Mammal
     {
         public int Id { get; set; }
         public string Name { get; set; }

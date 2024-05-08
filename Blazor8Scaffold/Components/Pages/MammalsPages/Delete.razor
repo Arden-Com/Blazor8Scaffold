@@ -1,6 +1,6 @@
 ﻿@page "/mammals/delete"
 @inject Blazor8Scaffold.Data.Blazor8DbContext DB
-@using Blazor8Scaffold
+@using Blazor8Scaffold.Entities
 @inject NavigationManager NavigationManager
 @using Microsoft.EntityFrameworkCore
 
@@ -37,7 +37,7 @@
 </div>
 
 @code {
-    Mammals? mammals;
+    Mammal? mammals;
 
     [SupplyParameterFromQuery]
     public int Id { get; set; }
