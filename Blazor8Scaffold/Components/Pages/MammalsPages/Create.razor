@@ -21,12 +21,12 @@
             </div>        
             <div class="mb-3">
                 <label for="habitat" class="form-label">Habitat:</label> 
-                <InputText id="habitat" @bind-Value="Mammals.Habitat" class="form-control" /> 
+                <InputTextArea id="habitat" @bind-Value="Mammals.Habitat" class="form-control" /> 
                 <ValidationMessage For="() => Mammals.Habitat" class="text-danger" /> 
             </div>        
             <div class="mb-3">
                 <label for="diet" class="form-label">Diet:</label> 
-                <InputText id="diet" @bind-Value="Mammals.Diet" class="form-control" /> 
+                <InputTextArea id="diet" @bind-Value="Mammals.Diet" class="form-control" /> 
                 <ValidationMessage For="() => Mammals.Diet" class="text-danger" /> 
             </div>        
             <button type="submit" class="btn btn-primary">Create</button>
