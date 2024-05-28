@@ -11,5 +11,6 @@ namespace Blazor8Scaffold.Data
         }
 
         public DbSet<Mammal> Mammals { get; set; } = default!;
+        public DbSet<Question> Questions { get; set; } = default!;
     }
 }
