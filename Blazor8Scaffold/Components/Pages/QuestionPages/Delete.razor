@@ -1,0 +1,89 @@
+﻿@page "/questions/delete"
+@inject Blazor8Scaffold.Data.Blazor8DbContext DB
+@using Blazor8Scaffold.Entities
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Delete</PageTitle>
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Question</h4>
+    <hr />
+    @if (question is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Text</dt>
+            <dd class="col-sm-10">@question.Text</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Answer1</dt>
+            <dd class="col-sm-10">@question.Answer1</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">CorrectAnswer1</dt>
+            <dd class="col-sm-10">@question.CorrectAnswer1</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Answer2</dt>
+            <dd class="col-sm-10">@question.Answer2</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">CorrectAnswer2</dt>
+            <dd class="col-sm-10">@question.CorrectAnswer2</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Answer3</dt>
+            <dd class="col-sm-10">@question.Answer3</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">CorrectAnswer3</dt>
+            <dd class="col-sm-10">@question.CorrectAnswer3</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Answer4</dt>
+            <dd class="col-sm-10">@question.Answer4</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">CorrectAnswer4</dt>
+            <dd class="col-sm-10">@question.CorrectAnswer4</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Feedback</dt>
+            <dd class="col-sm-10">@question.Feedback</dd>
+        </dl>
+        <EditForm method="post" Model="question" OnValidSubmit="DeleteQuestion" FormName="delete" Enhance>
+            <button type="submit" class="btn btn-danger" disabled="@(question is null)">Delete</button> |
+            <a href="/questions">Back to List</a>
+        </EditForm>
+    }
+</div>
+
+@code {
+    Question? question;
+
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        question = await DB.Questions.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (question is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    public async Task DeleteQuestion()
+    {
+        DB.Questions.Remove(question!);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/questions");
+    }
+}

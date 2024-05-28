@@ -1,0 +1,131 @@
+﻿@page "/Questions/edit"
+@inject Blazor8Scaffold.Data.Blazor8DbContext DB
+@using Blazor8Scaffold.Entities
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h4>Question</h4>
+<hr />
+@if (Question is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Question" OnValidSubmit="UpdateQuestion" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <input type="hidden" name="Question.Id" value="@Question.Id" />
+                <div class="mb-3">
+                    <label for="text" class="form-label">Question:</label>
+                    <InputTextArea id="text" @bind-Value="Question.Text" class="form-control" />
+                    <ValidationMessage For="() => Question.Text" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="answer1" class="form-label">Answer 1:</label>
+                    <InputText id="answer1" @bind-Value="Question.Answer1" class="form-control" />
+                    <ValidationMessage For="() => Question.Answer1" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="correctanswer1" class="form-label">True:</label>
+                    <InputCheckbox id="correctanswer1" @bind-Value="Question.CorrectAnswer1" class="form-check-input" />
+                    <ValidationMessage For="() => Question.CorrectAnswer1" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="answer2" class="form-label">Answer 2:</label>
+                    <InputText id="answer2" @bind-Value="Question.Answer2" class="form-control" />
+                    <ValidationMessage For="() => Question.Answer2" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="correctanswer2" class="form-label">True:</label>
+                    <InputCheckbox id="correctanswer2" @bind-Value="Question.CorrectAnswer2" class="form-check-input" />
+                    <ValidationMessage For="() => Question.CorrectAnswer2" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="answer3" class="form-label">Answer 3:</label>
+                    <InputText id="answer3" @bind-Value="Question.Answer3" class="form-control" />
+                    <ValidationMessage For="() => Question.Answer3" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="correctanswer3" class="form-label">True:</label>
+                    <InputCheckbox id="correctanswer3" @bind-Value="Question.CorrectAnswer3" class="form-check-input" />
+                    <ValidationMessage For="() => Question.CorrectAnswer3" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="answer4" class="form-label">Answer4:</label>
+                    <InputText id="answer4" @bind-Value="Question.Answer4" class="form-control" />
+                    <ValidationMessage For="() => Question.Answer4" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="correctanswer4" class="form-label">True:</label>
+                    <InputCheckbox id="correctanswer4" @bind-Value="Question.CorrectAnswer4" class="form-check-input" />
+                    <ValidationMessage For="() => Question.CorrectAnswer4" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="feedback" class="form-label">Feedback:</label>
+                    <InputTextArea id="feedback" @bind-Value="Question.Feedback" class="form-control" />
+                    <ValidationMessage For="() => Question.Feedback" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/questions">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    public Question? Question { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Question ??= await DB.Questions.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (Question is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see https://aka.ms/RazorPagesCRUD.
+    public async Task UpdateQuestion()
+    {
+        DB.Attach(Question!).State = EntityState.Modified;
+
+        try
+        {
+            await DB.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!QuestionExists(Question!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/questions");
+    }
+
+    bool QuestionExists(int id)
+    {
+        return DB.Questions.Any(e => e.Id == id);
+    }
+}

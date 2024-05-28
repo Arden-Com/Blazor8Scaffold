@@ -1,0 +1,63 @@
+﻿@page "/questions/details"
+@inject Blazor8Scaffold.Data.Blazor8DbContext DB
+@using Blazor8Scaffold.Entities
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h4>Question</h4>
+    <hr />
+    @if (question is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Text</dt>
+            <dd class="col-sm-10">@question.Text</dd>
+            <dt class="col-sm-2">Answer1</dt>
+            <dd class="col-sm-10">@question.Answer1</dd>
+            <dt class="col-sm-2">CorrectAnswer1</dt>
+            <dd class="col-sm-10">@question.CorrectAnswer1</dd>
+            <dt class="col-sm-2">Answer2</dt>
+            <dd class="col-sm-10">@question.Answer2</dd>
+            <dt class="col-sm-2">CorrectAnswer2</dt>
+            <dd class="col-sm-10">@question.CorrectAnswer2</dd>
+            <dt class="col-sm-2">Answer3</dt>
+            <dd class="col-sm-10">@question.Answer3</dd>
+            <dt class="col-sm-2">CorrectAnswer3</dt>
+            <dd class="col-sm-10">@question.CorrectAnswer3</dd>
+            <dt class="col-sm-2">Answer4</dt>
+            <dd class="col-sm-10">@question.Answer4</dd>
+            <dt class="col-sm-2">CorrectAnswer4</dt>
+            <dd class="col-sm-10">@question.CorrectAnswer4</dd>
+            <dt class="col-sm-2">Feedback</dt>
+            <dd class="col-sm-10">@question.Feedback</dd>
+        </dl>
+        <div>
+            <a href="@($"/questions/edit?id={question.Id}")">Edit</a> |
+            <a href="@($"/questions")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    Question? question;
+
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        question = await DB.Questions.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (question is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

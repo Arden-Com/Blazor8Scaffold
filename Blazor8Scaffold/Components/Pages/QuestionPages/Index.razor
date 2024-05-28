@@ -1,0 +1,31 @@
+﻿@page "/questions"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject Blazor8Scaffold.Data.Blazor8DbContext DB
+@using Blazor8Scaffold.Entities
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="questions/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.Questions">
+    <PropertyColumn Property="question => question.Text" Title="Question"/>
+    <PropertyColumn Property="question => question.Answer1" Title="Answer 1"/>
+    <PropertyColumn Property="question => question.CorrectAnswer1" Title="True"/>
+    <PropertyColumn Property="question => question.Answer2" Title="Answer 2" />
+    <PropertyColumn Property="question => question.CorrectAnswer2" Title="True" />
+@*     <PropertyColumn Property="question => question.Answer3" Title="Answer 3" />
+    <PropertyColumn Property="question => question.CorrectAnswer3" Title="True" />
+    <PropertyColumn Property="question => question.Answer4" Title="Answer 4" />
+    <PropertyColumn Property="question => question.CorrectAnswer4" Title="True" />
+    <PropertyColumn Property="question => question.Feedback" />
+ *@
+    <TemplateColumn Context="question">
+        <a href="@($"questions/edit?id={question.Id}")">Edit</a> |
+        <a href="@($"questions/details?id={question.Id}")">Details</a> |
+        <a href="@($"questions/delete?id={question.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
