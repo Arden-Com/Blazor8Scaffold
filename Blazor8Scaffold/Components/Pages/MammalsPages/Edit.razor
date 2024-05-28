@@ -28,6 +28,16 @@ else
                     <ValidationMessage For="() => Mammals.Name" class="text-danger" />
                 </div>
                 <div class="mb-3">
+                    <label for="name" class="form-label">Image URL:</label>
+                    <InputText id="name" @bind-Value="Mammals.Image" class="form-control" />
+                    <ValidationMessage For="() => Mammals.Image" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="habitat" class="form-label">Description:</label>
+                    <InputTextArea id="habitat" @bind-Value="Mammals.Description" class="form-control" />
+                    <ValidationMessage For="() => Mammals.Description" class="text-danger" />
+                </div>
+                <div class="mb-3">
                     <label for="habitat" class="form-label">Habitat:</label>
                     <InputTextArea id="habitat" @bind-Value="Mammals.Habitat" class="form-control" />
                     <ValidationMessage For="() => Mammals.Habitat" class="text-danger" />
