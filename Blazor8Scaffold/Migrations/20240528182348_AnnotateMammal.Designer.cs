@@ -3,6 +3,7 @@ using Blazor8Scaffold.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blazor8Scaffold.Migrations
 {
     [DbContext(typeof(Blazor8DbContext))]
-    partial class Blazor8DbContextModelSnapshot : ModelSnapshot
+    [Migration("20240528182348_AnnotateMammal")]
+    partial class AnnotateMammal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
