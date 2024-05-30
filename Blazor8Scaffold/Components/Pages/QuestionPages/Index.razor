@@ -3,9 +3,9 @@
 @inject Blazor8Scaffold.Data.Blazor8DbContext DB
 @using Blazor8Scaffold.Entities
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Mammals</PageTitle>
 
-<h1>Index</h1>
+<h1>UK Mammals</h1>
 
 <p>
     <a href="questions/create">Create New</a>
@@ -13,11 +13,37 @@
 
 <QuickGrid Class="table" Items="DB.Questions">
     <PropertyColumn Property="question => question.Text" Title="Question"/>
-    <PropertyColumn Property="question => question.Answer1" Title="Answer 1"/>
-    <PropertyColumn Property="question => question.CorrectAnswer1" Title="True"/>
-    <PropertyColumn Property="question => question.Answer2" Title="Answer 2" />
-    <PropertyColumn Property="question => question.CorrectAnswer2" Title="True" />
-@*     <PropertyColumn Property="question => question.Answer3" Title="Answer 3" />
+    <PropertyColumn Property="question => question.Answer1" Title="Answer"/>
+    <TemplateColumn Title="1">
+        @if (context is Question question)
+        {
+            if(question.CorrectAnswer1)
+            {
+                <span class="bi bi-circle-fill" aria-hidden="true"></span>
+            }
+            else
+            {
+                <span class="bi bi-x-circle-fill" aria-hidden="true"></span>
+            }
+        }
+    </TemplateColumn>
+    @*<PropertyColumn Property="question => question.CorrectAnswer1" Title="True" Format=""/>*@
+    <PropertyColumn Property="question => question.Answer2" Title="Answer"/>
+    <TemplateColumn Title="2">
+        @if (context is Question question)
+        {
+            if (question.CorrectAnswer2)
+            {
+                <span class="bi bi-circle-fill" aria-hidden="true"></span>
+            }
+            else
+            {
+                <span class="bi bi-x-circle-fill" aria-hidden="true"></span>
+            }
+        }
+    </TemplateColumn>
+@*  <PropertyColumn Property="question => question.CorrectAnswer2" Title="True" />
+    <PropertyColumn Property="question => question.Answer3" Title="Answer 3" />
     <PropertyColumn Property="question => question.CorrectAnswer3" Title="True" />
     <PropertyColumn Property="question => question.Answer4" Title="Answer 4" />
     <PropertyColumn Property="question => question.CorrectAnswer4" Title="True" />
